@@ -14,15 +14,15 @@ export default class EntryAbility extends UIAbility {
     //   .then((res) => {
     //     Log.info(JSON.stringify(res))
     //   })
-    interface User {
-      id: string
-      username: string
-      nickName: string
-    }
-
-    const res = await request<User>({
-      url: '/employee/user',
-    })
+    // interface User {
+    //   id: string
+    //   username: string
+    //   nickName: string
+    // }
+    //
+    // const res = await request<User>({
+    //   url: '/employee/user',
+    // })
   }
 
   onDestroy(): void {
