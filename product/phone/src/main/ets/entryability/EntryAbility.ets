@@ -5,7 +5,7 @@ import { promptAction, window } from '@kit.ArkUI';
 import '../utils/plugins'
 import { Log } from '@abner/log';
 import dayjs from 'dayjs';
-import { instance, request } from '@hm/basic';
+import { instance, request, RouterConfig } from '@hm/basic';
 
 export default class EntryAbility extends UIAbility {
   async onCreate(want: Want, launchParam: AbilityConstant.LaunchParam) {
@@ -29,11 +29,19 @@ export default class EntryAbility extends UIAbility {
     Log.info('Ability onDestroy');
   }
 
-  onWindowStageCreate(windowStage: window.WindowStage): void {
+  async onWindowStageCreate(windowStage: window.WindowStage) {
     // Main window is created, set main page for this ability
     Log.info('Ability onWindowStageCreate');
+    //写法1 创建子窗口 展示广告
+    // const win = await windowStage.createSubWindow('ad_win')
+    // await win.showWindow()
+    // // win.resize(300,300)
+    // // win.setUIContent('pages/AdPage')
+    // win.setUIContent(RouterConfig.SPLASH_URL)    // win.setUIContent('@bundle:com.heima.elderly.pro/home/ets/pages/Splash/Splash')
 
-    windowStage.loadContent('pages/Index', (err, data) => {
+
+    //写法2 直接加载广告 根据是否有token
+    windowStage.loadContent(RouterConfig.SPLASH_URL, (err, data) => {
       if (err.code) {
         Log.error('Failed to load the content. Cause: %{public}s', JSON.stringify(err) ?? '');
         return;

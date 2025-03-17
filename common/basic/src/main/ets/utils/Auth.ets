@@ -20,19 +20,15 @@ class UserAuthStore {
   //获取用户
   async getUser() {
     const store = this.getStore()
-    const user = await store.get(this.user_Key, '') as string
-    if (user) {
-      return JSON.parse(user) as User
-    } else {
-      return null
-    }
+    const user = await store.get(this.user_Key, '{}') as string
+    return JSON.parse(user) as User
   }
 
   //删除用户
-  delUser() {
+  async delUser() {
     const store = this.getStore()
-    store.delete(this.user_Key)
-    store.flush()
+    await store.delete(this.user_Key)
+    await store.flush()
   }
 }
 

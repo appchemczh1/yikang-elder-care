@@ -1,4 +1,4 @@
-import { ResManager } from '@hm/basic/Index'
+import { ResManager, RouterConfig, TokenManager } from '@hm/basic/Index'
 import { router } from '@kit.ArkUI'
 
 @Entry
@@ -7,18 +7,25 @@ struct Splash {
   @StorageProp('bottomHeight')
   bottomHeight: number = 0
   @State
-  count: number = 6
+  count: number = 3
   timer: number = -1
 
   countdown() {
-    this.timer = setInterval(() => {
+    this.timer = setInterval(async () => {
       this.count--
       if (this.count === 0) {
+       
         clearInterval(this.timer)
-        router.pushUrl({
-          url: 'pages/Index'
-        })
+        const user = await TokenManager.getUser()
+        if (user.token) {
+          router.replaceUrl({ url: 'pages/Index' })
+        } else {
+          router.replaceUrl({
+            url: RouterConfig.LOGIN_URL
+          })
+        }
       }
+
     }, 1000)
   }
 
@@ -59,6 +66,5 @@ struct Splash {
     .width('100%')
     .height('100%')
     .backgroundColor(ResManager.EC_MID_BG)
-
   }
 }
