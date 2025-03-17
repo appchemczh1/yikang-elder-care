@@ -1,6 +1,20 @@
 {
   "app": {
-    "signingConfigs": [],
+    "signingConfigs": [
+      {
+        "name": "default",
+        "type": "HarmonyOS",
+        "material": {
+          "certpath": "C:\\Users\\czh\\.ohos\\config\\default_yikang-elder-care_VAAN4ZGdtcUpFRqZgvUB2mpGMwPOGhEFMypvg2b7rU4=.cer",
+          "storePassword": "0000001BBACDFA843F6A802217D3F0C3EABAAA75294C40565DD0C132D5AB10860441B67EA9C7B9A1C49053",
+          "keyAlias": "debugKey",
+          "keyPassword": "0000001B2172D299B96B98AA8B2FA63E91A732B2054BA8C5B4D97FBB0BC4C09AC7EEB13ACC9B8C863C9506",
+          "profile": "C:\\Users\\czh\\.ohos\\config\\default_yikang-elder-care_VAAN4ZGdtcUpFRqZgvUB2mpGMwPOGhEFMypvg2b7rU4=.p7b",
+          "signAlg": "SHA256withECDSA",
+          "storeFile": "C:\\Users\\czh\\.ohos\\config\\default_yikang-elder-care_VAAN4ZGdtcUpFRqZgvUB2mpGMwPOGhEFMypvg2b7rU4=.p12"
+        }
+      }
+    ],
     "products": [
       {
         "name": "default",

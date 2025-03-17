@@ -2,6 +2,6 @@ export * from './src/main/ets/components'
 
 export * from './src/main/ets/constants'
 
-export * from './src/main/ets/utils'
+export { instance, ResManager, request } from './src/main/ets/utils'
 
 
