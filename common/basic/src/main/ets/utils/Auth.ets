@@ -7,7 +7,7 @@ class UserAuthStore {
 
   //获取仓库
   getStore() {
-    return preferences.getPreferencesSync(this.context || getContext(), { name: this.user_Key })
+    return preferences.getPreferencesSync(this.context || getContext(), { name: 'userStore' })
   }
 
   //添加用户

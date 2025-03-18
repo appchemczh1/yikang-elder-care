@@ -1,4 +1,4 @@
-import { ResManager } from '@hm/basic/Index'
+import { ResManager, RouterConfig } from '@hm/basic/Index'
 import router from '@ohos.router'
 
 // 模块排列位置
@@ -43,7 +43,7 @@ export struct Home {
     .backgroundColor(ResManager.EC_MID_WHITE)
     .onClick(() => {
       router.pushUrl({
-        url: '@bundle:com.heima.elderly.pro/message/ets/pages/MsgPage',
+        url: RouterConfig.USER_MSG_URL,
         params: {
           type: i
         }
@@ -71,7 +71,12 @@ export struct Home {
           .fontColor(ResManager.EC_MID_19)
           .fontSize(ResManager.EC_NORMAL_FS)
       }
-      .padding({ top: 20, bottom: 23, left: 13, right: 13 })
+      .padding({
+        top: 20,
+        bottom: 23,
+        left: 13,
+        right: 13
+      })
       // .borderRadius(8)
       // .layoutWeight(1)
       // .backgroundColor(ResManager.EC_MID_WHITE)

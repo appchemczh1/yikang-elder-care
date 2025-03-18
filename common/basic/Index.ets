@@ -4,8 +4,14 @@ export * from './src/main/ets/constants'
 
 export { RouterConfig } from './src/main/ets/constants/RouterConfig'
 
-export { instance, ResManager, request } from './src/main/ets/utils'
+export { instance, request } from './src/main/ets/utils/Request'
+
+export { ResManager } from './src/main/ets/utils/ResManager'
 
 export { TokenManager, User } from './src/main/ets/utils/Auth'
+
+export { LoginParams } from './src/main/ets/viewModel/UserModel'
+
+export { loginApi } from './src/main/ets/api/index'
 
 
