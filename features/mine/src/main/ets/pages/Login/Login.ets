@@ -1,5 +1,5 @@
 import { Log } from '@abner/log';
-import { ResManager } from '@hm/basic/Index';
+import { loginApi, ResManager } from '@hm/basic/Index';
 import { authentication } from '@kit.AccountKit';
 import { JSON, util } from '@kit.ArkTS';
 import { BusinessError } from '@kit.BasicServicesKit';
@@ -37,6 +37,12 @@ struct Login {
       const openID = authorizationWithHuaweiIDCredential.openID;
 
       Log.info('code:' + code + ';unionID:' + unionID + ';openID:' + openID)
+      const token = await loginApi({
+        code: code!,
+        clientId: '6917568177873840621', // 实际情况下决定不能写
+        clientSecret: '2ae061245b66f9d622b5b1b2bd7b60ea7d81530358dbc365cfc247a7ca89da49' // 实际情况下决定不能写
+      })
+
       // 开发者处理code
     } catch (error) {
       promptAction.showToast({
