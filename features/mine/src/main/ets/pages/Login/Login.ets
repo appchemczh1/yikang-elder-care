@@ -1,9 +1,9 @@
 import { Log } from '@abner/log';
-import { loginApi, ResManager } from '@hm/basic/Index';
+import { loginApi, ResManager, RouterConfig, TokenManager } from '@hm/basic/Index';
 import { authentication } from '@kit.AccountKit';
 import { JSON, util } from '@kit.ArkTS';
 import { BusinessError } from '@kit.BasicServicesKit';
-import { promptAction } from '@kit.ArkUI';
+import { promptAction, router } from '@kit.ArkUI';
 
 @Entry
 @Component
@@ -42,6 +42,14 @@ struct Login {
         clientId: '6917568177873840621', // 实际情况下决定不能写
         clientSecret: '2ae061245b66f9d622b5b1b2bd7b60ea7d81530358dbc365cfc247a7ca89da49' // 实际情况下决定不能写
       })
+      promptAction.showToast({
+        message: 'token:' + token
+      })
+      TokenManager.setUser({ token: token })
+      router.replaceUrl({
+        url: 'pages/Index'
+      })
+      //去首页，无法返回登录
 
       // 开发者处理code
     } catch (error) {
