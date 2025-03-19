@@ -17,7 +17,6 @@ export struct EcDialogUpload {
   //拍照
   async takePhoto() {
     let mContext = getContext(this) as common.Context;
-
     try {
       let pickerProfile: cameraPicker.PickerProfile = {
         cameraPosition: camera.CameraPosition.CAMERA_POSITION_BACK
@@ -40,7 +39,6 @@ export struct EcDialogUpload {
     let photoPicker = new photoAccessHelper.PhotoViewPicker();
     const res = await photoPicker.select(PhotoSelectOptions)
     this.callback(res.photoUris[0]) //选取第0张图片
-
     Log.info('the pick photoPicker is:' + JSON.stringify(res))
   }
 
@@ -82,6 +80,9 @@ export struct EcDialogUpload {
             .width('100%')
             .textAlign(TextAlign.Center)
             .padding(15)
+            .onClick(() => {
+              this.controller.close()
+            })
         }
       }
       .width('100%')

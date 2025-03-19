@@ -46,3 +46,13 @@ export function uploadUserAvatar(avatar: string): Promise<null> {
     }
   })
 }
+
+export function updateNickName(nickName: string): Promise<null> {
+  return request<null>({
+    url: '/employee/user/updateNickname',
+    method: 'put',
+    params: {
+      nickName: nickName
+    }
+  })
+}

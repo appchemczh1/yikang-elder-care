@@ -3,6 +3,7 @@ import {
   EcDialogUpload,
   getUserApi,
   ResManager,
+  RouterConfig,
   uploadApi,
   uploadUserAvatar,
   UserData,
@@ -12,6 +13,7 @@ import { fileIo } from '@kit.CoreFileKit'
 import { FormData } from '@ohos/axios'
 import { Log } from '@abner/log'
 import { EcLoading } from '@itheima/wing-care'
+import { emitter } from '@kit.BasicServicesKit'
 
 interface CellParam {
   title: string
@@ -59,7 +61,6 @@ struct Setting {
     //更换用户头像
     await uploadUserAvatar(urlRes)
     this.aboutToAppear()
-    //获取上传地址
   }
 
   @State
@@ -72,6 +73,10 @@ struct Setting {
 
   aboutToAppear(): void {
     this.getUser()
+
+    emitter.on('updateUser', () => {
+      this.getUser()
+    })
   }
 
   @Builder
@@ -89,7 +94,10 @@ struct Setting {
             .fontSize(ResManager.EC_NORMAL_FS)
             .onClick(() => {
               router.pushUrl({
-                url: 'pages/mine/NickNamePage'
+                url: RouterConfig.USER_NAME_URL,
+                params: {
+                  nickName: cellParam.rightContent
+                }
               })
             })
         } else {

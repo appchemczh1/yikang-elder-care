@@ -1,5 +1,6 @@
 import router from '@ohos.router'
 import { DeviceManager, getUserApi, ResManager, RouterConfig, UserData, UserDataModel } from '@hm/basic/Index'
+import { emitter } from '@kit.BasicServicesKit'
 
 @Component
 export struct Mine {
@@ -35,6 +36,10 @@ export struct Mine {
 
   aboutToAppear(): void {
     this.getUser()
+    
+    emitter.on('updateUser', () => {
+      this.getUser()
+    })
   }
 
   build() {
