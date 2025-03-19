@@ -1,5 +1,17 @@
 import router from '@ohos.router'
-import { EcDialogUpload, getUserApi, ResManager, UserData, UserDataModel } from '@hm/basic/Index'
+import {
+  EcDialogUpload,
+  getUserApi,
+  ResManager,
+  uploadApi,
+  uploadUserAvatar,
+  UserData,
+  UserDataModel
+} from '@hm/basic/Index'
+import { fileIo } from '@kit.CoreFileKit'
+import { FormData } from '@ohos/axios'
+import { Log } from '@abner/log'
+import { EcLoading } from '@itheima/wing-care'
 
 interface CellParam {
   title: string
@@ -12,12 +24,44 @@ interface CellParam {
 struct Setting {
   @StorageProp('topHeight')
   topHeight: number = 0
+  //loading加载弹窗
+  dialogController: CustomDialogController = new CustomDialogController({
+    builder: EcLoading(),
+    customStyle: true,
+    autoCancel: false,
+    alignment: DialogAlignment.Center
+  })
   // 上传弹层控制
   uploadDialog: CustomDialogController = new CustomDialogController({
     // 使用自定义弹层组件
-    builder: EcDialogUpload({}),
+    builder: EcDialogUpload({
+      callback: async (url: string) => {
+        this.dialogController.open()
+        await this.uploadImage(url)
+        this.dialogController.close()
+      }
+    }),
     alignment: DialogAlignment.Bottom
   })
+
+  //上传方法
+  async uploadImage(url: string) {
+    //拷贝
+    //首选要将图片进行沙箱文件处理，因为上传接口只能接受沙箱文件的内容
+    const file = fileIo.openSync(url, fileIo.OpenMode.READ_ONLY) //获取媒体文件信息
+    const filePath = getContext().cacheDir + '/' + file.name //获取沙箱路径
+    fileIo.copyFileSync(file.fd, filePath)
+    const data = new FormData
+    data.append('file', `internal://cache/${file.name}`)
+    //上传
+    const urlRes = await uploadApi(data)
+    Log.info('urlRes:' + JSON.stringify(urlRes))
+    //更换用户头像
+    await uploadUserAvatar(urlRes)
+    this.aboutToAppear()
+    //获取上传地址
+  }
+
   @State
   user: UserDataModel = new UserDataModel({} as UserData)
 
