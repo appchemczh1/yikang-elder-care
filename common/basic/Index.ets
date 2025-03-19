@@ -12,6 +12,10 @@ export { TokenManager, User } from './src/main/ets/utils/Auth'
 
 export { LoginParams } from './src/main/ets/viewModel/UserModel'
 
-export { loginApi } from './src/main/ets/api/index'
+export { loginApi, getUserApi } from './src/main/ets/api/index'
+
+export { DeviceManager, CareCard } from './src/main/ets/builders/DeviceCardBuilders'
+
+export { UserData, UserDataModel } from './src/main/ets/viewModel/UserModel'
 
 

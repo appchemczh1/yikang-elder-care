@@ -1,5 +1,5 @@
 import router from '@ohos.router'
-import { ResManager } from '@hm/basic/Index'
+import { DeviceManager, getUserApi, ResManager, RouterConfig, UserData, UserDataModel } from '@hm/basic/Index'
 
 @Component
 export struct Mine {
@@ -25,6 +25,18 @@ export struct Mine {
     .onClick(() => router.pushUrl({ url }))
   }
 
+  @State
+  user: UserDataModel = new UserDataModel({} as UserData)
+
+  async getUser() {
+    const data = await getUserApi()
+    this.user = data
+  }
+
+  aboutToAppear(): void {
+    this.getUser()
+  }
+
   build() {
     Column() {
       // 1. 头部
@@ -38,22 +50,34 @@ export struct Mine {
           .padding({ top: this.topHeight })
         // 个人信息
         Column({ space: 5 }) {
-          Image('https://img2.baidu.com/it/u=130573784,2479509663&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=534')
+          Image(this.user.avatar ||
+            'https://img2.baidu.com/it/u=130573784,2479509663&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=534')
             .width(74)
             .aspectRatio(1)
             .borderRadius(37)
             .border({ width: 5, color: '#AEE8E4' })
-            .shadow({ offsetX: 0, offsetY: 2, radius: 21, color: '#0aa9941f' })
-          Text('刘大壮')
+            .shadow({
+              offsetX: 0,
+              offsetY: 2,
+              radius: 21,
+              color: '#0aa9941f'
+            })
+            .onClick(() => {
+              router.pushUrl({
+                url: RouterConfig.USER_SET_URL
+              })
+            })
+          Text(this.user.nickName || '刘大壮')
             .fontSize(ResManager.EC_PAGE_TITLE_FS)
             .fontColor(ResManager.EC_MID_BLACK)
             .fontWeight(500)
-          Text('sijigaowa@163.com')
+          Text(this.user.username || 'sijigaowa@163.com')
             .fontSize(13)
             .fontColor(ResManager.EC_MID_59)
 
         }
         .margin({ top: 64 - this.topHeight })
+
       }
       .width('100%')
       .height(330)
@@ -67,11 +91,14 @@ export struct Mine {
             .fontColor(ResManager.EC_MID_19)
             .fontSize(ResManager.EC_MODULE_TITLE_FS)
             .fontWeight(500)
+
           // Image($r('app.media.ic_arrow_black'))
           //   .width(7)
           //   .height(16)
         }
         .width('100%')
+
+        DeviceManager()
 
         // 导航：设备管理
         Row({ space: 10 }) {

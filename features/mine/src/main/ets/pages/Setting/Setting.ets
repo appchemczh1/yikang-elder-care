@@ -1,6 +1,11 @@
 import router from '@ohos.router'
-import { EcDialogUpload, ResManager } from '@hm/basic/Index'
+import { EcDialogUpload, getUserApi, ResManager, UserData, UserDataModel } from '@hm/basic/Index'
 
+interface CellParam {
+  title: string
+  rightContent: string
+  isAvatar: boolean
+}
 
 @Entry
 @Component
@@ -13,18 +18,29 @@ struct Setting {
     builder: EcDialogUpload({}),
     alignment: DialogAlignment.Bottom
   })
+  @State
+  user: UserDataModel = new UserDataModel({} as UserData)
+
+  async getUser() {
+    const data = await getUserApi()
+    this.user = data
+  }
+
+  aboutToAppear(): void {
+    this.getUser()
+  }
 
   @Builder
-  cellItem(title: string, rightContent: string = '') {
+  cellItem(cellParam: CellParam) {
     Row() {
-      Text(title)
+      Text(cellParam.title)
         .fontColor(ResManager.EC_MID_19)
         .fontSize(ResManager.EC_MODULE_TITLE_FS)
         .fontWeight(500)
       Row({ space: 10 }) {
-        if (rightContent) {
+        if (!cellParam.isAvatar) {
           // 昵称修改
-          Text(rightContent)
+          Text(cellParam.rightContent)
             .fontColor(ResManager.EC_MID_59)
             .fontSize(ResManager.EC_NORMAL_FS)
             .onClick(() => {
@@ -34,7 +50,7 @@ struct Setting {
             })
         } else {
           // 上传
-          Image('https://img2.baidu.com/it/u=130573784,2479509663&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=534')
+          Image(cellParam.rightContent)
             .width(34)
             .aspectRatio(1)
             .borderRadius(17)
@@ -58,11 +74,11 @@ struct Setting {
         Column() {
           List() {
             ListItem() {
-              this.cellItem('头像')
+              this.cellItem({ title: '头像', rightContent: this.user.avatar!, isAvatar: true })
             }
 
             ListItem() {
-              this.cellItem('昵称', '思密达')
+              this.cellItem({ title: '昵称', rightContent: this.user.nickName!, isAvatar: false })
             }
           }
           .width('100%')

@@ -7,21 +7,22 @@ struct Splash {
   @StorageProp('bottomHeight')
   bottomHeight: number = 0
   @State
-  count: number = 3
+  count: number = 2
   timer: number = -1
 
   countdown() {
     this.timer = setInterval(async () => {
       this.count--
       if (this.count === 0) {
-       
+
         clearInterval(this.timer)
         const user = await TokenManager.getUser()
         if (user.token) {
           router.replaceUrl({ url: 'pages/Index' })
         } else {
           router.replaceUrl({
-            url: RouterConfig.LOGIN_URL
+            // url: RouterConfig.LOGIN_URL
+            url: 'pages/Index'
           })
         }
       }
