@@ -1,5 +1,13 @@
 import router from '@ohos.router'
-import { DeviceManager, getUserApi, ResManager, RouterConfig, UserData, UserDataModel } from '@hm/basic/Index'
+import {
+  DeviceManager,
+  getUserApi,
+  ResManager,
+  RouterConfig,
+  TokenManager,
+  UserData,
+  UserDataModel
+} from '@hm/basic/Index'
 import { emitter } from '@kit.BasicServicesKit'
 
 @Component
@@ -36,7 +44,7 @@ export struct Mine {
 
   aboutToAppear(): void {
     this.getUser()
-    
+
     emitter.on('updateUser', () => {
       this.getUser()
     })
@@ -153,6 +161,9 @@ export struct Mine {
         .borderRadius(28)
         .backgroundColor('#fff')
         .margin({ top: 50 })
+        .onClick(() => {
+          this.logoutDialog()
+        })
 
 
     }
@@ -160,5 +171,26 @@ export struct Mine {
     .height('100%')
     .backgroundColor(ResManager.EC_MID_BG)
 
+  }
+
+  logoutDialog() {
+    AlertDialog.show({
+      title: '退出登录',
+      message: '确定退出登录吗？',
+      primaryButton: {
+        value: '取消',
+        action: () => {
+        }
+      },
+      secondaryButton: {
+        value: '确定',
+        action: () => {
+          TokenManager.delUser()
+          router.replaceUrl({
+            url: RouterConfig.LOGIN_URL
+          })
+        }
+      }
+    })
   }
 }
